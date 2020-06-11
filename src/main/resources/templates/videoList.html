@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="utf-8">
+	<title th:text="${videoModel.title}"></title>
+</head>
+<body>
+<div th:text="${videoModel.title}"></div>
+<div>
+	<a href="/video/getVideoList/">刷新列表</a>
+</div>
+<form action="/video/getVideoByCode" method="post" th:object="${video}">
+	单据号:
+	<input type="text" name="name" th:field="*{name}">
+	<br>
+	<input type="submit" value="搜索">
+</form>
+<table border="1">
+	<thead>
+	<tr>
+		<td>ID</td>
+		<td>单据号名称</td>
+		<td>视频大小/KB</td>
+		<td>创建时间</td>
+	</tr>
+	</thead>
+	<tbody>
+	<tr th:if="${videoModel.videoList.size()} eq 0">
+		<td colspan="3">视频列表为空!</td>
+	</tr>
+	<tr th:each="video : ${videoModel.videoList}">
+		<td th:text="${video.id}"></td>
+		<td th:text="${video.name}"></td>
+		<td th:text="${video.length}"></td>
+		<td th:text="${video.createTime}"></td>
+	</tr>
+	</tbody>
+</table>
+</body>
+</html>

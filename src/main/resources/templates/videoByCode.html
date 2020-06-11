@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="utf-8">
+	<link href="http://vjs.zencdn.net/5.5.3/video-js.css" rel="stylesheet">
+	<script src="http://vjs.zencdn.net/ie8/1.1.1/videojs-ie8.min.js"></script>
+	<script src="http://vjs.zencdn.net/5.5.3/video.js"></script>
+	<title th:text="${singleVideoModel.title}"></title>
+</head>
+<body>
+<div th:text="${singleVideoModel.title}"></div>
+<form action="/video/getVideoByCode" method="post" th:object="${video}">
+	单据号:
+	<input type="text" name="name" th:value="*{name}">
+	<br>
+	<input type="submit" value="搜索">
+</form>
+<table border="1">
+	<thead>
+	<tr>
+		<td>单据号名称</td>
+		<td>视频大小/KB</td>
+		<td>创建时间</td>
+	</tr>
+	</thead>
+	<tbody>
+	<tr th:if="${singleVideoModel.video} eq null">
+		<td colspan="3">未查询到该视频！</td>
+	</tr>
+	<tr th:object="${singleVideoModel.video}">
+		<td th:text="${singleVideoModel.video.name}"></td>
+		<td th:text="${singleVideoModel.video.length}"></td>
+		<td th:text="${singleVideoModel.video.createTime}"></td>
+		<td th:text="${singleVideoModel.video.videoUrl}"></td>
+	</tr>
+	</tbody>
+</table>
+<div>
+	<div style="width:450px; height:400px">
+		<!--video标签有一个很操蛋的属性就是，宽和高中的其中一个属性碰到了父级盒子的边缘，那video就不在自适应或者遵循CSS的样式，
+  解决方法，只给width：100%；不要高度属性
+  在video标签外嵌套一个div标签，在该标签里控制视频的大小style="width:500px; height:500px"，
+  在video标签里添加 style=" width: 100%; height: 100%"   此时视频就会平铺宽高为500px的播放窗口-->
+		<video id="video1" class="video-js vjs-big-play-centered" controls preload="auto" data-setup='{}' style="object-fit: fill; width: 100%; height: 100%" webkit-playsinline="false">
+			<source th:src="${singleVideoModel.video.videoUrl}" type='rtmp/flv'>
+			<p class="vjs-no-js">播放视频需要启用 JavaScript，推荐使用支持HTML5的浏览器访问。
+				To view this video please enable JavaScript, and consider upgrading to a web browser that
+				<a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+			</p>
+		</video>
+	</div>
+</div>
+</body>
+</html>

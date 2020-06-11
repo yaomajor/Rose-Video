@@ -1,0 +1,64 @@
+spring:
+  profiles:
+    active:
+    - dev
+---
+server:
+  port: 8090
+  tomcat:
+    uri-encoding : UTF-8
+spring:
+  messages:
+    basename: i18n/messages  
+  http:
+    encoding:
+      force: true
+      enabled : true
+      charset : UTF-8
+  ###ThymeLeaf配置
+  thymeleaf:
+      #模板的模式，支持 HTML, XML TEXT JAVASCRIPT
+      mode: HTML5
+      #编码 可不用配置
+      encoding: UTF-8
+      #内容类别,可不用配置
+      content-type: text/html
+      #开发配置为false,避免修改模板还要重启服务器,实现热部署
+      cache: false
+      #配置模板路径，默认是templates，可以不用配置
+      prefix: classpath:/templates/
+  profiles: dev
+management:
+  security:
+    enabled: false
+
+---    
+server:
+  port: 8090
+  tomcat:
+    uri-encoding : UTF-8
+spring:
+  messages:
+    basename: i18n/messages  
+  http:
+    encoding:
+      force: true
+      enabled : true
+      charset : UTF-8
+  profiles: beta
+---
+server:
+  port: 8090
+  tomcat:
+    uri-encoding : UTF-8
+spring:
+  messages:
+    basename: i18n/messages  
+  http:
+    encoding:
+      force: true
+      enabled : true
+      charset : UTF-8
+  profiles: product
+
+---
