@@ -24,9 +24,9 @@ import javax.swing.*;
 @ComponentScan("com.javacv.video")
 @PropertySource("classpath:video.properties")
 public class VideoConfiguration {
-    @Value("filePath")
+    @Value("${filePath}")
     private String filePath;
-    @Value("fileName")
+    @Value("${fileName}")
     private String fileName;
     /**
      * 创建Grabber对象

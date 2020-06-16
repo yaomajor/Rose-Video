@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8" />
+	<title>配置信息列表</title>
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript">
+		function updateConfig() {
+			var serverAddress = $("#serverAddress").val();    // 获取id为username的<input>框数据
+			var serverFilePath = $("#serverFilePath").val();
+			var sharedFolder = $("#sharedFolder").val();
+			var userAccount = $("#userAccount").val();
+			var userPassword = $("#userPassword").val();
+			var overtime = $("#overtime").val();
+			$.ajax({
+				url:"/video/updateConfig",
+				type:"post",
+				data:{"serverAddress":serverAddress,"serverFilePath":serverFilePath,
+					"sharedFolder":sharedFolder,"userAccount":userAccount,
+					"userPassword":userPassword
+					,"overtime":overtime},
+				dataType: "json",
+				success: function () {
+					//提交成功的提示词或者其他反馈代码
+					alert("修改成功！");
+				}
+			});
+		}
+	</script>
+</head>
+
+<body>
+<table border="1">
+<thead>
+<tr>
+	<td>配置文件属性</td>
+	<td>配置文件值</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>文件服务器IP</td>
+	<td th:text="${configModel.config.serverAddress}"></td>
+	<td>
+		<input id="serverAddress" name="serverAddress" type="text" />
+	</td>
+</tr>
+<tr>
+	<td>文件地址路径</td>
+	<td th:text="${configModel.config.serverFilePath}"></td>
+	<td>
+		<input id="serverFilePath" name="serverFilePath" type="text" />
+	</td>
+</tr>
+<tr>
+	<td>共享文件夹名称</td>
+	<td th:text="${configModel.config.sharedFolder}"></td>
+	<td>
+		<input id="sharedFolder" name="sharedFolder" type="text" />
+	</td>
+</tr>
+<tr>
+	<td>共享电脑账号</td>
+	<td th:text="${configModel.config.userAccount}"></td>
+	<td>
+		<input id="userAccount" name="userAccount" type="text" />
+	</td>
+</tr>
+<tr>
+	<td>共享电脑密码</td>
+	<td th:text="${configModel.config.userPassword}"></td>
+	<td>
+		<input id="userPassword" name="userPassword" type="text" />
+	</td>
+</tr>
+<tr>
+	<td>录制视频的超长时长</td>
+	<td th:text="${configModel.config.overtime}"></td>
+	<td>
+		<input id="overtime" name="overtime" type="text" />
+	</td>
+</tr>
+</table>
+</tbody>
+<div>
+	<a href="/video/readConfig/">刷新页面</a>
+</div>
+<div>
+	<button type="button" onclick="updateConfig()">修改配置</button>
+</div>
+</body>
+</html>
+

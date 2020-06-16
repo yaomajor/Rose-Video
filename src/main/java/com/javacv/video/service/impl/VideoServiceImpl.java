@@ -1,8 +1,11 @@
 package com.javacv.video.service.impl;
 
 import com.javacv.video.service.IVideoService;
+import com.javacv.video.utils.PropertyUtil;
 import com.javacv.video.utils.SmbFileList;
+import com.javacv.video.vo.ConfigFile;
 import com.javacv.video.vo.Video;
+import io.micrometer.core.instrument.util.StringUtils;
 import org.bytedeco.ffmpeg.global.avcodec;
 import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacv.*;
@@ -138,6 +141,40 @@ public class VideoServiceImpl implements IVideoService {
     @Override
     public Video getVideoByCode(String name) {
         return SmbFileList.getFileByCode(name);
+    }
+
+    @Override
+    public ConfigFile readConfig() {
+        ConfigFile cf = new ConfigFile();
+        cf.setOvertime(PropertyUtil.getProperty("overtime"));
+        cf.setServerAddress(PropertyUtil.getProperty("server_address"));
+        cf.setServerFilePath(PropertyUtil.getProperty("server_filePath"));
+        cf.setSharedFolder(PropertyUtil.getProperty("sharedFolder"));
+        cf.setUserAccount(PropertyUtil.getProperty("USER_ACCOUNT"));
+        cf.setUserPassword(PropertyUtil.getProperty("USER_PWS"));
+        return cf;
+    }
+
+    @Override
+    public void updateConfig(ConfigFile configFile) {
+        if(StringUtils.isNotBlank(configFile.getOvertime())){
+            PropertyUtil.setProperty("overtime",configFile.getOvertime());
+        }
+        if(StringUtils.isNotBlank(configFile.getServerAddress())){
+            PropertyUtil.setProperty("server_address",configFile.getServerAddress());
+        }
+        if (StringUtils.isNotBlank(configFile.getServerFilePath())) {
+            PropertyUtil.setProperty("server_filePath",configFile.getServerFilePath());
+        }
+        if (StringUtils.isNotBlank(configFile.getSharedFolder())) {
+            PropertyUtil.setProperty("sharedFolder",configFile.getSharedFolder());
+        }
+        if (StringUtils.isNotBlank(configFile.getUserAccount())) {
+            PropertyUtil.setProperty("USER_ACCOUNT",configFile.getUserAccount());
+        }
+        if (StringUtils.isNotBlank(configFile.getUserPassword())) {
+            PropertyUtil.setProperty("USER_PWS",configFile.getUserPassword());
+        }
     }
 }
 

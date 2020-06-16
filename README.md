@@ -22,4 +22,5 @@
 2. [开始录制] http://localhost:8090/video/start?fileName=123
 3. [关闭录制] http://localhost:8090/video/stop
 4. [查询远程视频列表] http://localhost:8090/video/getVideoList
+5. [配置信息页面] http://localhost:8090/video/readConfig
 

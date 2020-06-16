@@ -1,5 +1,6 @@
 package com.javacv.video.service;
 
+import com.javacv.video.vo.ConfigFile;
 import com.javacv.video.vo.Video;
 
 import java.util.List;
@@ -31,4 +32,13 @@ public interface IVideoService {
      */
     Video getVideoByCode(String name);
 
+    /**
+     * 读取配置文件内容
+     */
+    ConfigFile readConfig();
+
+    /**
+     * 更新配置文件中的内容
+     */
+    void updateConfig(ConfigFile configFile);
 }

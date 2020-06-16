@@ -1,6 +1,8 @@
 package com.javacv.video.controller;
 
 import com.javacv.video.service.IVideoService;
+import com.javacv.video.vo.ConfigFile;
+import com.javacv.video.vo.Success;
 import com.javacv.video.vo.Video;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,9 +22,14 @@ import java.util.List;
 @Controller
 @RequestMapping({"/video"})
 public class VideoController {
+
     @Autowired
     private IVideoService videoService;
 
+    /**
+     * 打开摄像头
+     * @return
+     */
     @RequestMapping(value = {"open"})
     @ResponseBody
     public String open(){
@@ -33,6 +40,11 @@ public class VideoController {
         }
     }
 
+    /**
+     * 开始录制视频
+     * @param fileName
+     * @return
+     */
     @RequestMapping(value = {"start"},method = RequestMethod.GET)
     @ResponseBody
     public String start(@RequestParam String fileName){
@@ -40,6 +52,10 @@ public class VideoController {
         return "已经开始记录";
     }
 
+    /**
+     * 停止录制视频
+     * @return
+     */
     @RequestMapping(value = {"stop"})
     @ResponseBody
     public String stop(){
@@ -47,6 +63,12 @@ public class VideoController {
         return "停止记录";
     }
 
+    /**
+     * 获取视频列表
+     * @param video
+     * @param model
+     * @return
+     */
     @RequestMapping(value = {"getVideoList"})
     @ResponseBody
     public ModelAndView getVideoList(@ModelAttribute("video")Video video,Model model){
@@ -59,9 +81,16 @@ public class VideoController {
         }else{
             return null;
         }
-
+//        return videoList;
     }
 
+
+    /**
+     * 根据单号获取视频
+     * @param video
+     * @param model
+     * @return
+     */
     @RequestMapping(value = {"getVideoByCode"},method=RequestMethod.POST)
     @ResponseBody
     public ModelAndView getVideoByCode(@ModelAttribute("video") Video video,Model model){
@@ -79,5 +108,29 @@ public class VideoController {
 
     }
 
+    /**
+     * 读取当前的配置文件
+     */
+    @RequestMapping(value = {"readConfig"},method=RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView readConfig(Model model){
+        ConfigFile cf = videoService.readConfig();
+        model.addAttribute("config",cf);
+        model.addAttribute("title","配置文件");
+        return new ModelAndView("config","configModel",model);
+    }
+
+    /**
+     * 修改相关配置文件
+     */
+    @RequestMapping(value = {"updateConfig"},method=RequestMethod.POST)
+    @ResponseBody
+    public Success updateConfig(@ModelAttribute("config") ConfigFile configFile){
+        videoService.updateConfig(configFile);
+        Success success = new Success();
+        success.setMessage("修改成功");
+        success.setSuccess(true);
+        return success;
+    }
 
 }

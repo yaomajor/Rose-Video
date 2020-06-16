@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -58,12 +60,17 @@ public class SmbFileList {
                 SmbFile[] files = remoteFile.listFiles();
                 Integer id = 1;
                 for (SmbFile f : files) {
+                    //远程视频文件名称拼接
+                    String videoUrl = "rtmp:"+serverAddress+"/vod/"+f.getName();
                     System.out.println(f.getName());
                     Video video = new Video();
                     video.setId(id);
                     video.setName(f.getName());
                     video.setLength(f.length());
-                    video.setCreateTime(Long.toString(f.createTime()));
+                    video.setVideoUrl(videoUrl);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String time_Date = sdf.format(new Date(f.createTime()));
+                    video.setCreateTime(time_Date);
                     list.add(video);
                     id++;
                 }

@@ -1,5 +1,7 @@
 package com.javacv.video.vo;
 
+import java.io.Serializable;
+
 /**
  * @ClassName Video
  * @Description TODO
@@ -7,7 +9,7 @@ package com.javacv.video.vo;
  * @Date 2020/6/2 8:35
  * @Version 1.0
  **/
-public class Video {
+public class Video implements Serializable {
     /**
      * 序号
      */
